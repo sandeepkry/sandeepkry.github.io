@@ -34,6 +34,37 @@
         header h1 {
             font-size: 3rem;
             margin-bottom: 1rem;
+            animation: gentleFloat 3s ease-in-out infinite;
+            background: linear-gradient(45deg, #ffffff, #f0f0f0, #ffffff);
+            background-size: 200% 200%;
+            animation: gentleFloat 3s ease-in-out infinite, shimmer 4s ease-in-out infinite;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        @keyframes gentleFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes shimmer {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .typing-effect {
+            border-right: 2px solid white;
+            animation: blink 1s infinite;
+            white-space: nowrap;
+            overflow: hidden;
+            display: inline-block;
+        }
+
+        @keyframes blink {
+            0%, 50% { border-color: white; }
+            51%, 100% { border-color: transparent; }
         }
 
         header p {
@@ -198,7 +229,7 @@
 <body>
     <header>
         <div class="container">
-            <h1>Your Name</h1>
+            <h1 id="nameText">Your Name</h1>
             <p>Multi-Domain Developer & Creator</p>
             <a href="#projects" class="btn">View My Work</a>
         </div>
@@ -309,6 +340,33 @@
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
         gtag('config', 'GA_MEASUREMENT_ID');
+    </script>
+
+    <!-- Typing Animation Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const nameElement = document.getElementById('nameText');
+            const originalText = nameElement.textContent;
+            
+            // Start with empty text
+            nameElement.textContent = '';
+            nameElement.classList.add('typing-effect');
+            
+            // Type out the name character by character
+            let i = 0;
+            const typeTimer = setInterval(() => {
+                if (i < originalText.length) {
+                    nameElement.textContent += originalText.charAt(i);
+                    i++;
+                } else {
+                    clearInterval(typeTimer);
+                    // Remove typing cursor after animation completes
+                    setTimeout(() => {
+                        nameElement.classList.remove('typing-effect');
+                    }, 1000);
+                }
+            }, 150); // Adjust speed here (lower = faster)
+        });
     </script>
 </body>
 </html>
